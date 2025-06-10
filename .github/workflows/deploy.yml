@@ -16,20 +16,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build project
-        run: npm run build
+          # Removido cache: 'npm' para evitar el error
 
       - name: Install Surge CLI
         run: npm install --global surge
 
       - name: Deploy to Surge
-        run: surge ./dist --domain mi-proyecto-genial.surge.sh --token ${{ secrets.SURGE_TOKEN }}
-        # Cambia "mi-proyecto-genial" por el nombre que prefieras
+        run: surge ./ --domain ${{ github.repository_owner }}-${{ github.event.repository.name }}.surge.sh --token ${{ secrets.SURGE_TOKEN }}
         
       - name: Display deployment URL
-        run: echo "Deployed to https://mi-proyecto-genial.surge.sh"
+        run: echo "✅ Deployed to https://${{ github.repository_owner }}-${{ github.event.repository.name }}.surge.sh"
